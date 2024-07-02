@@ -1,6 +1,6 @@
+const dotenv = require('dotenv');
+dotenv.config({ path: './.env'});
 const express = require("express");
-
-require('dotenv').config();
 
 const app = express();
 const cookieParser = require('cookie-parser');
@@ -8,12 +8,21 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const config = {
-  origin: '*'
+  origin: [
+    '*',
+    'http://127.0.0.1:5173', 
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'http://172.20.10.5:5173'
+  ]
 }
 const port = process.env.PORT;
 
 /** Routes */
 const authRoutes = require('./routes/authentication');
+const flwRoutes = require('./routes/flw-payments');
+const pstkRoutes = require('./routes/pstk-payments');
+const apiKeysRoutes = require('./routes/api-keys');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -22,6 +31,9 @@ app.use(cors(config));
 
 
 app.use('/api/v1/pay-only/auth', authRoutes);
+app.use('/api/v1/pay-only/flw', flwRoutes);
+app.use('/api/v1/pay-only/pstk', pstkRoutes);
+app.use('/api/v1/pay-only/keys', apiKeysRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hey, welcome to pay-only REST API');

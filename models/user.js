@@ -30,10 +30,10 @@ const UserSchema = new mongoose.Schema({
     required: true,
     default: true
   },
-  account_type: {
+  /* account_type: {
     type: String,
     required: true
-  },
+  }, */
 
   refresh_token: {
     type: String,
